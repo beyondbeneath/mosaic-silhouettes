@@ -1,6 +1,6 @@
 # Mosaic Silhouettes
 
-This project uses Google's pre-trained Inception-v3 model to generate vectors for an arbitrary directory of images (be it emojis, holiday happy-snaps, or photos of your family). With these vectors, it applies a dimensionality reduction (either UMAP or t-SNE), and then maps those coordinates onto a silhouette mask while preserving the structure. Finally, a mosaic is generated using square thumbnails of the original images.
+This project uses Google's pre-trained Inception-v3 model to generate vectors for an arbitrary directory of images (be it emojis, holiday happy-snaps, or even photos of your family). With these vectors, it applies a dimensionality reduction (either [UMAP](https://github.com/lmcinnes/umap) or [t-SNE](https://lvdmaaten.github.io/tsne/)), and then maps those coordinates onto a silhouette mask while preserving the structure. Finally, a mosaic is generated using square thumbnails of the original images.
 
 The net result is a gridded image, in the shape of a masked silhouette, where the image placement is clustered by image similarity (as according to the Inception-v3 vectors):
 
@@ -17,7 +17,7 @@ This is really just a combination & extension of a few existing projects:
 # Usage
 
 1. Place the images (`JPG`, `PNG`, or `GIF`) into a subfolder named `img`
-2. Find a mask to use and place it in the root directory
+2. Find a mask to use (ideally a black [pixel=0] & white [pixel=255] PNG) and place it in the root directory
 3. Run `python mosaic.py --mask mask_image.png`
 
 At this point the script will run through a variety of sub-routines, and save the progress as it goes (into `output/vectors.json`) incase something goes wrong. The broad steps are:
@@ -39,7 +39,7 @@ There are a variety of arguments available.
 |`mask_channel`|int|`0`|Which channel to use for the mask|
 |`mask_value`|int|`0`|Which integer value of the mask channel to identify as the silhouette|
 |`mask_output`|bool|`true`|Whether or not to save `output/mask_debug.png` to help visual identification of channel & values|
-|`vector_file`|str|`None`|Filepath (relative to the root directory) of pre-generated `vectors.json`. Use this if you want to skip this step in future runs to save time. (for any given image the vector will never change)|
+|`vector_file`|str|`None`|Filepath (relative to the root directory) of pre-generated `vectors.json`. Use this if you want to skip this step in future runs to save time (for any given image the vector will never change)|
 |`thumb_dir`|str|`None`|Directory path (relative to the root directory) of thumbnail images. Use this if you want to skip this step in future runs to save time |
 |`thumb_size`|int|`20`|Size (in pixels) of the thumbnail square which is produced. Increase this if you want a higher resolution image |
 |`dim_red_skip`|bool|`False`|Skip the dimension reduction if it has already been done to save time. If this is selected it will read the reduced `x` and `y` coordinates from the `output/vectors.json` file|
@@ -65,6 +65,6 @@ For a successful run of the script, the following files are saved (in `output/`)
 
 The script `download_images.py` is provided as an example of how to easily download a bunch of images from Google Images, using the `google_images_download` (see https://github.com/hardikvasa/google-images-download for more details and installation instructions).
 
-The main function ads it stands runs `download_example_frog_images()` which just downloads 100 images of various coloured frogs. The other function `download_single_keyword()` (commented out) allows you to download any arbitrary keyword. It is recommended to see the official documentation for the full suite of options available.
+The main function as it stands runs `download_example_frog_images()` which just downloads 100 images of various coloured frogs. The other function `download_single_keyword()` (commented out) allows you to download any arbitrary keyword. It is recommended to see the official documentation for the full suite of options available.
 
 For example, simply running `python download_images.py` will download 900 frog images into `img/` as a starting example.
