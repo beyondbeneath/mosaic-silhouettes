@@ -1,5 +1,7 @@
 # Mosaic Silhouettes
 
+NB: code was originally written in August 2018, and first published here in December 2018.
+
 This project uses Google's pre-trained Inception-v3 model to generate vectors for an arbitrary directory of images (be it emojis, holiday happy-snaps, or even photos of your family). With these vectors, it applies a dimensionality reduction (either [UMAP](https://github.com/lmcinnes/umap) or [t-SNE](https://lvdmaaten.github.io/tsne/)), and then maps those coordinates onto a silhouette mask while preserving the structure. Finally, a mosaic is generated using square thumbnails of the original images.
 
 The net result is a gridded image, in the shape of a masked silhouette, where the image placement is clustered by image similarity (as according to the Inception-v3 vectors):
